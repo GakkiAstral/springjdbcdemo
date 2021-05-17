@@ -2,9 +2,7 @@ package com.bjsxt.dao.impl;
 
 import com.bjsxt.dao.UsersDao;
 import com.bjsxt.pojo.Users;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,5 +76,33 @@ public class UsersDaoImpl implements UsersDao {
             }
         });
         return users;
+    }
+
+    /**
+     * 根据用户姓名，查询返回多条数据。
+     * @param username
+     * @return
+     */
+    @Override
+    public List<Users> selectUsersByName(String username) {
+        String sql = "select * from users where username = ?";
+        Object[] param = new Object[]{username};
+        return this.jdbcTemplate.query(sql, param, new RowMapper<Users>() {
+            @Override
+            public Users mapRow(ResultSet resultSet, int i) throws SQLException {
+                Users users = new Users();
+                users.setUserid(resultSet.getInt("userid"));
+                users.setUsername(resultSet.getString("username"));
+                users.setUsersex(resultSet.getString("usersex"));
+                return users;
+            }
+        });
+    }
+
+    @Override
+    public List<Users> selectUsersByName2(String username) {
+        String sql = "select * from users where username = ?";
+        Object[] param = new Object[]{username};
+        return this.jdbcTemplate.query(sql,param,new BeanPropertyRowMapper<>(Users.class));
     }
 }

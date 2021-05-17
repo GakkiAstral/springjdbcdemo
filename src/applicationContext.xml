@@ -26,8 +26,13 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
+    <!--配置usersDaoSupport-->
+    <bean id="usersDaoSupport" class="com.bjsxt.dao.impl.UsersDaoImplSupport">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <!--配置UserService-->
     <bean id="usersService" class="com.bjsxt.service.impl.UsersServiceImpl">
-        <property name="usersDao" ref="usersDao"/>
+        <property name="usersDao" ref="usersDaoSupport"/>
     </bean>
 </beans>

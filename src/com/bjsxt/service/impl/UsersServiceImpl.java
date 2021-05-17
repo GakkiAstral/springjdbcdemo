@@ -46,4 +46,14 @@ public class UsersServiceImpl implements UsersService {
     public Users findUsersById(int userid) {
         return this.usersDao.selectUsersById(userid);
     }
+
+    @Override
+    public List<Users> findUsersByName(String username) {
+        return this.usersDao.selectUsersByName(username);
+    }
+
+    @Override
+    public List<Users> findUsersByName2(String username) {
+        return this.usersDao.selectUsersByName2(username);
+    }
 }
